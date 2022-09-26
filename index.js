@@ -1,8 +1,9 @@
 const express=require('express')
 const app=express()
+const cookieParser = require('cookie-parser');
 const bookRouter=require('./routes/book')
 require('dotenv').config();
-const {Book,Admin}=require('./models/admin.js')
+app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 app.use('/book',bookRouter);
 

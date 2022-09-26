@@ -15,11 +15,6 @@
     .catch((err) => {
       console.log("oh no!!", err);
     });
-  //creating admin schema
-  const adminSchema = new mongoose.Schema({
-    users:[{username:String,password:String}]
-  });
-  const Admin=mongoose.model('Admin',adminSchema)
   
   //creating book schema
   const bookSchema = new mongoose.Schema({
@@ -30,5 +25,5 @@
     price:String  
   });
   const Book=mongoose.model('Book',bookSchema)
-  // exporting both of the schema
+  // exporting the schema
   module.exports={Book}

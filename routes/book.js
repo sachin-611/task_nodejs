@@ -4,7 +4,7 @@ const router=express.Router()
 const {addBook,getBook,deleteBook,updateBook, getAllBook}=require('../utils/books')
 
 const adminCheck=(req,res,next)=>{
-    console.log("admin checked")
+    //authlogic
     next()
 }
 
@@ -15,9 +15,8 @@ router.get('/name/:bookname',adminCheck,async (req,res)=>{
     else
         res.send(ress)
 })
+
 router.post('/create',adminCheck,async (req,res)=>{
-    if(!req.body.name || !req.body.author || !req.body.price || !req.body.pages)
-        res.send("incomplete information provided")
     let datas=({
         name:req.body.name,
         image:req.body.image_url,
@@ -30,8 +29,6 @@ router.post('/create',adminCheck,async (req,res)=>{
 })
 
 router.delete('/delete',adminCheck,async (req,res)=>{
-    if(!req.body.name || !req.body.author || !req.body.price || !req.body.pages)
-        res.send("incomplete information provided")
     let datas=({
         name:req.body.name,
         image:req.body.image_url,
@@ -39,16 +36,11 @@ router.delete('/delete',adminCheck,async (req,res)=>{
         pages:req.body.pages,
         price:req.body.prices  
     })
-    await deleteBook(datas);
+    let cnt = await deleteBook(datas);
     res.send("deleted if existed")
 })
 
 router.put('/update',adminCheck,async (req,res)=>{
-    if(!req.body.name || !req.body.author || !req.body.price || !req.body.pages)
-        res.send("incomplete information provided")
-    if(!req.body.uname || !req.body.uauthor || !req.body.uprice || !req.body.upages)
-        res.send("incomplete information provided")
-    
     let datas={
         name:req.body.name,
         image:req.body.image_url,
@@ -67,7 +59,7 @@ router.put('/update',adminCheck,async (req,res)=>{
     res.send(resp)
 })
 
-router.get('/all',async (req,res)=>{
+router.get('/all',adminCheck,async (req,res)=>{
     let data=await getAllBook();
     res.send(data)
 })
